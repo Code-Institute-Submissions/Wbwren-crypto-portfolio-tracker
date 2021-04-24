@@ -1,1 +1,5 @@
-# crypto-portfolio-tracker
+# Crypto Portfolio Tracker
+
+## Project purpose 
+The purpose of this website is to provide quick access to a users current cryptocurrency portfolio net worth.
+The website will allow users to create an account and input their purchase history. This information will be compared to the current price of each coin and a total portfolio value and breakdown will be provided. Logging into secure cryptocurrency exchanges can be time consuming with two factor authentication and lengthy intricate passwords. This website will not have access to trading features and thus will not require such a secure, time consuming log in process. In addition, if the user wished to access, their current portfolio value on a device which they beleive may be unsecure, this website will provide peace of mind that even if their accound is compromised, their investments will be safe.
