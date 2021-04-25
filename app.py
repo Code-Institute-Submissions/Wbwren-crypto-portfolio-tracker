@@ -18,6 +18,19 @@ mongo = PyMongo(app)
 api_key = os.environ.get("NOMICS_API_KEY")
 nomics = nomics.Nomics(api_key)
 
+# Function to get current prices of coins
+def get_price(*argv):
+  coin_list = nomics.get_prices()
+  selected_coins = []
+  for arg in argv:
+    for coin in coin_list:
+      if coin['currency'] == arg:
+        selected_coins.append(coin)
+  return selected_coins
+
+
+print(get_price('BTC', 'ETH', 'XMR'))
+
 @app.route('/')
 def test():
     return 'Hello World'
