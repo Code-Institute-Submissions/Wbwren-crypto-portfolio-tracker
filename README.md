@@ -16,3 +16,7 @@ The website will allow users to create an account and input their purchase histo
 
 ### Strategy
 __Goal__: Allow users to quickly view how their portfolio is performing without access to their funds directly.
+
+
+### Scope
+* A website that allows users to create an account, log cryptocurrency transaction history and monitor their portfolio value.
