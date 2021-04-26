@@ -32,8 +32,9 @@ def get_price(*argv):
 print(get_price('BTC', 'ETH', 'XMR'))
 
 @app.route('/')
-def test():
-    return 'Hello World'
+@app.route('/home')
+def home():
+    return render_template('tasks.html')
 
 
 if __name__ == '__main__':
