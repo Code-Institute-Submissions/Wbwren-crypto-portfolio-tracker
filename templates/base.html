@@ -10,7 +10,18 @@
     <title>Crypto Portfolio Tracker</title>
 </head>
 <body>
-    <h1>Crypto Portfolio Tracker</h1>
+    <header>
+        <nav class="nav-extended text-shadow light-blue darken-1">
+			<div class="nav-wrapper">
+                <ul class="left hide-on-med-and-down">
+                    <li><a href="#">Crypto Portfolio Tracker</a></li>
+                </ul>
+				<ul class="right hide-on-med-and-down">
+                    <li><a href="{{ url_for('register') }}">Register</a></li>
+				</ul>
+			</div>
+		</nav>
+    </header>
     {% block content %}
     {% endblock %}
 
