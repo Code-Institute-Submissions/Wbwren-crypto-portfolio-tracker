@@ -93,7 +93,8 @@ def login():
 @app.route("/logout")
 def logout():
     # remove user from session cookie
-    session.pop("user")
+    session.clear
+    flash('You have been logged out')
     return redirect(url_for("login"))
 
 if __name__ == '__main__':
