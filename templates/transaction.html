@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form>
+    <label for="coin">Choose a coin:</label>
+    <select name="coin" id="coin">
+        <option value="bitcoin">Bitcoin</option>
+        <option value="ethereum">Ethereum</option>
+        <option value="binance-coin">Binance Coin</option>
+        <option value="dogecoin">Dogecoin</option>
+        <option value="tether">Tether</option>
+        <option value="cardano">Cardano</option>
+        <option value="xrp">XRP</option>
+        <option value="internet-computer">Internet Computer</option>
+        <option value="polkadot">Polkadot</option>
+        <option value="bitcoin-cash">Bitcoin Cash</option>
+    </select>
+
+    <label for="transactionType">Transation type</label>
+    <select name="transactionType" id="transactionType">
+        <option value="buy">Buy</option>
+        <option value="sell">Sell</option>
+    </select>
+
+    <label for="quantity">Quantity</label>
+    <input type="number" id="quantity" name="quantity" min="0.00000001" max="10000000" placeholder="0.00">
+
+    <label for="fee">Fee</label>
+    <input type="number" id="fee" name="fee" placeholder="0.00">
+
+</form>
+
+{% endblock %}
