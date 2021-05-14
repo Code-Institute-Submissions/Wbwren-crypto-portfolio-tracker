@@ -103,7 +103,28 @@ def logout():
 
 @app.route("/transaction")
 def transaction():
-  return render_template("transaction.html")
+    return render_template("transaction.html")
+
+
+@app.route("/transaction", methods=["GET", "POST"])
+def makeTransaction():
+    if request.method == "POST":
+        task = {
+            "user": session["user"],
+            "coin": request.form.get("coin"),
+            "transactionType": request.form.get("transactionType"),
+            "quantity": request.form.get("quantity"),
+            "price": request.form.get("price"),
+            "fee": request.form.get("fee"),
+            "notes": request.form.get("notes"),
+            "date": request.form.get("date")
+        }
+        mongo.db.transactions.insert_one(task)
+        flash("Transaction Successfully Saved")
+        return render_template('dashboard.html')
+
+    # categories = mongo.db.categories.find().sort("category_name", 1)
+    # return render_template("add_task.html", categories=categories)
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
