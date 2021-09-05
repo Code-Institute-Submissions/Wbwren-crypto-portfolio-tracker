@@ -1,6 +1,10 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block content %}
 
 <h1>Your Portfolio</h1>
-<div><a href="{{ url_for('transaction') }}">Add transaction</a></div>
+<h2>Your portfolio net worth:</h2>
+
+<p>transactions: {{ coin }}</p>
+
+<div><a href='{{ url_for("transaction") }}'>Add transaction</a></div>
 {% endblock %}
