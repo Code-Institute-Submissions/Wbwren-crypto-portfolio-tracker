@@ -2,6 +2,12 @@ select {
     display: block;
 }
 
+* {
+    color: white;
+    background-color: navy;
+
+}
+
 /* body {
     background-image: '/Users/williamwren/Documents/crypto-portfolio-tracker/static/images/photo-1523961131990-5ea7c61b2107.jpeg';
     display: flex;

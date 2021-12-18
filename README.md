@@ -19,4 +19,4 @@ __Goal__: Allow users to quickly view how their portfolio is performing without 
 
 
 ### Scope
-* A website that allows users to create an account, log cryptocurrency transaction history and monitor their portfolio value.
+* A website that allows users to create an account, log cryptocurrency transaction history and monitor their portfolio value. w7Gy4[/]6zP9nDWx^V5
