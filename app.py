@@ -1,8 +1,9 @@
 import os
 import sys
 import nomics
+import time
 from flask import (
-    Flask, flash, render_template,
+    Flask, flash, render_template, json,
     redirect, request, session, url_for)
 from flask_pymongo import PyMongo
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -20,25 +21,6 @@ mongo = PyMongo(app)
 api_key = os.environ.get('NOMICS_API_KEY')
 nomics = nomics.Nomics(api_key)
 
-# Function to get current prices of coins
-
-
-def get_price(*argv):
-    try:
-        print('try')
-        coin_list = nomics.get_prices()
-        selected_coins = []
-        for arg in argv:
-            for coin in coin_list:
-                if coin['currency'] == arg:
-                    selected_coins.append(coin)
-        price = []
-        for coin in selected_coins:
-            price.append(coin['price'])
-        return price
-    except:
-        print('except')
-        flash('Error connecting to server')
 
 @app.route('/')
 @app.route('/home')
@@ -134,57 +116,77 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/dashboard')
+
+def get_price(coins):
+    try:
+        coin_list = nomics.ExchangeRates.get_rates()
+        selected_coins = []
+       
+        for i in coins:
+            for coin in coin_list:
+                if coin['currency'] == i.upper():
+                    selected_coins.append(coin)
+        return selected_coins
+    except:
+        print('except')
+        flash('Error connecting to server')
+
+
+@app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-    # if 'user' not in session
     if 'user' not in session:
         return redirect(url_for('login'))
-    transactions = mongo.db.transactions.find( {'user': session['user']} )
-    coins = []
-    for transaction in transactions:
-        # add different coins to a set
-        #loop through and get value of each ocin w/ 1 sec delay
-        coins.append(transaction['coin'])
+
+   
+    def updateBalance():
+        balance = 0
+        transactions = mongo.db.transactions.find( {'user': session['user']} )
+        coins = []
+        quantities = []
+        transactionTypes = []
+        prices = []
+        for transaction in transactions:
+            coins.append(transaction['coin'])
+            quantities.append(transaction['quantity'])
+            transactionTypes.append(transaction['transactionType'])
+        print('This is the original coins array: {0}'.format(coins))
+
+        nomics_coins = get_price(coins)
+        for coin in nomics_coins:
+            prices.append(coin['rate'])
         
-    coins_string = ' '.join(coins)
-    new_string = ' '.join('"{},"'.format(word) for word in coins_string.split(' '))
+        for i in range(len(coins)):
+            if transactionTypes[i] == 'buy':
+                balance += float(prices[i]) * quantities[i]
+            elif transactionTypes[i] == 'sell':
+                balance += -abs(float(prices[i]) * quantities[i])
+
+        return balance
+
+    balance = updateBalance()
     
-    print('2', coins_string)
 
-    print('4', new_string)
-    print('34', new_string.split(-1))
-
-    print('5', get_price('BTC', 'XRP'))
-    
-        
-    
-    return render_template('dashboard.html')
-
-
-@app.route('/transaction')
-def transaction():
-    return render_template('transaction.html')
-
-
-@app.route('/transaction', methods=['GET', 'POST'])
-def makeTransaction():
     if request.method == 'POST':
         task = {
             'user': session['user'],
             'coin': request.form.get('coin'),
             'transactionType': request.form.get('transactionType'),
-            'quantity': request.form.get('quantity'),
-            'price': request.form.get('price'),
-            'fee': request.form.get('fee'),
-            'notes': request.form.get('notes'),
+            'quantity': float(request.form.get('quantity')),
+            'cost': float(request.form.get('cost')),
+            'fee': float(request.form.get('fee')),
             'date': request.form.get('date')
         }
         mongo.db.transactions.insert_one(task)
+        # delay api call as limited to one call per second
+        time.sleep(1)
+        balance = updateBalance()
         flash('Transaction Successfully Saved')
-        return render_template('dashboard.html')
 
-    # categories = mongo.db.categories.find().sort('category_name', 1)
-    # return render_template('add_task.html', categories=categories)
+
+    return render_template('dashboard.html', balance=balance)
+    
+
+
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
