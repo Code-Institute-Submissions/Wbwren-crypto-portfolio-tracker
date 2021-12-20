@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\static",
+    "\\static\\css",
+    "\\static\\js",
+    "\\templates"
   ],
-  "SelectedNode": "\\C:\\Users\\wbwre\\OneDrive - Athlone Institute Of Technology\\Documents\\crypto-portfolio-tracker",
+  "SelectedNode": "\\app.py",
   "PreviewInSolutionExplorer": false
 }
