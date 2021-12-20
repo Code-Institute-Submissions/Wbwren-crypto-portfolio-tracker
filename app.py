@@ -137,10 +137,10 @@ def dashboard():
     if 'user' not in session:
         return redirect(url_for('login'))
 
-   
+    
     def updateBalance():
-        balance = 0
         transactions = mongo.db.transactions.find( {'user': session['user']} )
+        balance = 0
         coins = []
         quantities = []
         transactionTypes = []
@@ -163,8 +163,24 @@ def dashboard():
 
         return balance
 
+
+    def getTotalCost():
+        transactions = mongo.db.transactions.find( {'user': session['user']} )
+        totalCost = 0
+        
+        for transaction in transactions:
+            
+            print(transaction['cost'])
+            totalCost += transaction['cost']
+        print('totalCost: {0}'.format(totalCost))
+        return totalCost
+
     balance = updateBalance()
+    cost = getTotalCost()
+
     
+
+
 
     if request.method == 'POST':
         task = {
@@ -180,10 +196,11 @@ def dashboard():
         # delay api call as limited to one call per second
         time.sleep(1)
         balance = updateBalance()
+        cost = getTotalCost()
         flash('Transaction Successfully Saved')
 
 
-    return render_template('dashboard.html', balance=balance)
+    return render_template('dashboard.html', balance=balance, cost=cost)
     
 
 
