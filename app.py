@@ -175,8 +175,13 @@ def dashboard():
         print('totalCost: {0}'.format(totalCost))
         return totalCost
 
+    def getProfitLoss():
+        return balance - cost
+
+
     balance = updateBalance()
     cost = getTotalCost()
+    profit_loss = getProfitLoss()
 
     
 
@@ -200,7 +205,7 @@ def dashboard():
         flash('Transaction Successfully Saved')
 
 
-    return render_template('dashboard.html', balance=balance, cost=cost)
+    return render_template('dashboard.html', balance=balance, cost=cost, profit_loss=profit_loss)
     
 
 
