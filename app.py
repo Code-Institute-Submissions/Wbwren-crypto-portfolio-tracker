@@ -206,8 +206,23 @@ def dashboard():
 
 
     return render_template('dashboard.html', balance=balance, cost=cost, profit_loss=profit_loss)
-    
 
+
+
+@app.route('/transactions', methods=['GET', 'POST'])
+def transactions():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    
+    transactions = mongo.db.transactions.find( {'user': session['user']} )
+
+    transactions_list = []
+    for transaction in transactions:
+        transaction.pop('_id')
+        transaction.pop('user')
+        transactions_list.append(transaction)
+    return render_template('transactions.html', transactions=transactions_list)
+    
 
 
 if __name__ == '__main__':
