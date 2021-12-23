@@ -4,33 +4,26 @@
 <h1>Your Portfolio</h1>
 <h2>Your portfolio net worth:</h2>
 
-<p>Total Spent: {{ cost }}</p>
+<p>Total Invested: {{ cost }}</p>
 
 <p>Current Balance: {{ balance }}</p>
 
 <p>Total Profit/Loss: {{ profit_loss }}</p>
 
+<p>{{ user_coin_list }}</p>
 
 
-<img src="https://alternative.me/crypto/fear-and-greed-index.png" alt="Latest Crypto Fear & Greed Index" />
-
-<img src="https://alternative.me/images/fng/crypto-fear-and-greed-index-2020-5-13.png" alt="Crypto Fear & Greed Index on May 13, 2020" />
 
 <button data-modal-target="#modal">Add Transaction</button>
 <div class="modal" id="modal">
     <form method='POST'>
         <label for='coin'>Choose a coin:</label>
         <select name='coin' id='coin'>
-            <option value='btc'>Bitcoin</option>
-            <option value='eth'>Ethereum</option>
-            <option value='binance-coin'>Binance Coin</option>
-            <option value='dogecoin'>Dogecoin</option>
-            <option value='tether'>Tether</option>
-            <option value='ada'>Cardano</option>
-            <option value='xrp'>XRP</option>
-            <option value='internet-computer'>Internet Computer</option>
-            <option value='dot'>Polkadot</option>
-            <option value='bitcoin-cash'>Bitcoin Cash</option>
+
+            {% for coin in list_of_coins %}
+            <option value={{coin}}>{{coin}}</option>
+            {% endfor %}
+
         </select>
 
         <label for='transactionType'>Transation type</label>
