@@ -87,7 +87,7 @@ def login():
 
 
 @app.route('/forgotPassword', methods=['GET', 'POST'])
-def forgotPassword():
+def forgot_password():
     if request.method == 'POST':
         # check if username exists in db
         existing_user = mongo.db.users.find_one(
@@ -140,31 +140,30 @@ def dashboard():
         return redirect(url_for('login'))
 
     
-    def updateBalance():
+    def update_balance():
         transactions = mongo.db.transactions.find( {'user': session['user']} )
         balance = 0
-        coinsSold = {}
-        coinsPurchased = {}
+        coins_purchased = {}
+        coins_sold = {}
 
         for transaction in transactions:
             if transaction['transactionType'] == 'buy':
-                if transaction['coin'] not in coinsPurchased:
-                    coinsPurchased[transaction['coin']] = float(transaction['quantity'])
-                    #quantitiesPurchased.append(transaction['quantity'])
+                if transaction['coin'] not in coins_purchased:
+                    coins_purchased[transaction['coin']] = float(transaction['quantity'])
                 else:
-                    for k in coinsPurchased.items():
+                    for k in coins_purchased.items():
                         if k == transaction['coin']:
-                            coinsPurchased[k] += float(transaction['quantity'])
+                            coins_purchased[k] += float(transaction['quantity'])
                             break  
             else:
-                if transaction['coin'] in coinsPurchased:
-                    for k in coinsPurchased.items():
+                if transaction['coin'] in coins_purchased:
+                    for k in coins_purchased.items():
                         if k == transaction['coin']:
-                            coinsPurchased[k] -= float(transaction['quantity'])
+                            coins_purchased[k] -= float(transaction['quantity'])
                             break
 
         try:
-            nomics_coins = get_price(coinsPurchased)
+            nomics_coins = get_price(coins_purchased)
         except:
             print('could not retrieve prices')
             flash('Failed to retrieve live prices')
@@ -174,11 +173,11 @@ def dashboard():
             prices.append(coin['price'])
         
         i = 0
-        for k in coinsPurchased.items():
-            if k in coinsSold:
-                coinsPurchased[k] -= coinsSold[k]
-            print('coin quantity: {0}, coin price: {1}'.format(coinsPurchased[k], prices[i]))
-            balance += coinsPurchased[k] * float(prices[i])
+        for k, v in coins_purchased.items():
+            if k in coins_sold:
+                coins_purchased[k] -= coins_sold[k]
+            # print('coin quantity: {0}, coin price: {1}'.format(coins_purchased[k], prices[i]))
+            balance += coins_purchased[k] * float(prices[i])
             i += 1
         return balance
 
@@ -194,20 +193,20 @@ def dashboard():
         list_of_coins.append(coin['id'])
 
 
-    def getTotalCost():
+    def get_total_cost():
         transactions = mongo.db.transactions.find( {'user': session['user']} )
-        totalCost = 0
+        total_cost = 0
         
         for transaction in transactions:
             if transaction['transactionType'] == 'buy':
-                totalCost += transaction['cost']
+                total_cost += transaction['cost']
             elif transaction['transactionType'] == 'sell':
-                totalCost -= transaction['cost']
-        return totalCost
+                total_cost -= transaction['cost']
+        return total_cost
     
 
     
-    def getUserCoinList():
+    def get_user_coin_list():
         user_coin_list = {}
 
         transactions = mongo.db.transactions.find( {'user': session['user']} )
@@ -228,9 +227,7 @@ def dashboard():
                             break
         return user_coin_list
 
-    
-    
-
+ 
     if request.method == 'POST':
         transaction = {
             'user': session['user'],
@@ -244,9 +241,9 @@ def dashboard():
         time.sleep(1)
         flash('Transaction Successfully Saved')
 
-    user_coin_list = getUserCoinList()
-    balance = updateBalance()
-    cost = getTotalCost()
+    user_coin_list = get_user_coin_list()
+    balance = update_balance()
+    cost = get_total_cost()
     profit_loss = balance - cost
 
     return render_template('dashboard.html', balance=balance, cost=cost, profit_loss=profit_loss, user_coin_list=user_coin_list, list_of_coins=list_of_coins)

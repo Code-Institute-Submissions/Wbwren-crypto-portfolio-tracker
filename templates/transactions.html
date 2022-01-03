@@ -5,20 +5,15 @@
 
 <table>
 
-    
-
-
-
     {% for transaction in transactions %}
 
-    {% for k, v in transaction.items() %}
-
     <tr>
-        <td>{{ k }}: {{ v }}</td>
+        <td>Coin: {{ transaction['coin'] }}</td>
+        <td>Cost: {{ transaction['cost'] }}</td>
+        <td>Transaction Type: {{ transaction['transactionType'] }}</td>
+        <td>Cost: {{ transaction['quantity'] }}</td>
+        <td><button>Update</button><button>Delete</button></td>
     </tr>
-
-    {% endfor %}
-
 
     {% endfor %}
 
