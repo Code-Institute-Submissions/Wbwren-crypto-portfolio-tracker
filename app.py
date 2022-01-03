@@ -1,13 +1,11 @@
 import os
-import sys
+from dns.query import _set_selector_class
 import nomics
 import time
 from flask import (
     Flask, flash, render_template, json,
     redirect, request, session, url_for)
 from flask_pymongo import PyMongo
-
-import urllib.request
 
 
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -146,9 +144,7 @@ def dashboard():
         transactions = mongo.db.transactions.find( {'user': session['user']} )
         balance = 0
         coinsSold = {}
-        quantitiesSold = []
         coinsPurchased = {}
-        quantitiesPurchased= []
 
         for transaction in transactions:
             if transaction['transactionType'] == 'buy':
@@ -156,13 +152,13 @@ def dashboard():
                     coinsPurchased[transaction['coin']] = float(transaction['quantity'])
                     #quantitiesPurchased.append(transaction['quantity'])
                 else:
-                    for k, v in coinsPurchased.items():
+                    for k in coinsPurchased.items():
                         if k == transaction['coin']:
                             coinsPurchased[k] += float(transaction['quantity'])
                             break  
             else:
                 if transaction['coin'] in coinsPurchased:
-                    for k, v in coinsPurchased.items():
+                    for k in coinsPurchased.items():
                         if k == transaction['coin']:
                             coinsPurchased[k] -= float(transaction['quantity'])
                             break
@@ -178,7 +174,7 @@ def dashboard():
             prices.append(coin['price'])
         
         i = 0
-        for k, v in coinsPurchased.items():
+        for k in coinsPurchased.items():
             if k in coinsSold:
                 coinsPurchased[k] -= coinsSold[k]
             print('coin quantity: {0}, coin price: {1}'.format(coinsPurchased[k], prices[i]))
@@ -187,12 +183,26 @@ def dashboard():
         return balance
 
 
+    coins = mongo.db.ticker_symbols.find()
+   
+    list_of_coins = []
+    i = 0
+    for coin in coins:
+        print('fetching a coin')
+        print(i)
+        i += 1
+        list_of_coins.append(coin['id'])
+
+
     def getTotalCost():
         transactions = mongo.db.transactions.find( {'user': session['user']} )
         totalCost = 0
         
         for transaction in transactions:
-            totalCost += transaction['cost']
+            if transaction['transactionType'] == 'buy':
+                totalCost += transaction['cost']
+            elif transaction['transactionType'] == 'sell':
+                totalCost -= transaction['cost']
         return totalCost
     
 
@@ -220,19 +230,6 @@ def dashboard():
 
     
     
-    
-    
-
-
-    coins = mongo.db.ticker_symbols.find()
-   
-    list_of_coins = []
-    
-    for coin in coins:
-        list_of_coins.append(coin['id'])
-        
-
-    
 
     if request.method == 'POST':
         transaction = {
@@ -240,12 +237,10 @@ def dashboard():
             'coin': request.form.get('coin'),
             'transactionType': request.form.get('transactionType'),
             'quantity': float(request.form.get('quantity')),
-            'cost': float(request.form.get('cost')),
-            'fee': float(request.form.get('fee')),
-            'date': request.form.get('date')
+            'cost': float(request.form.get('cost'))
         }
         mongo.db.transactions.insert_one(transaction)
-        # delay api call as limited to one call per second
+        # delay API call as limited to one call per second
         time.sleep(1)
         flash('Transaction Successfully Saved')
 

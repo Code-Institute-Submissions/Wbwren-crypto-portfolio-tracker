@@ -3,16 +3,25 @@
 
 <h1>Transaction List</h1>
 
-<ul>
+<table>
+
+    
+
 
 
     {% for transaction in transactions %}
 
-    <li>{{transaction}}</li>
+    {% for k, v in transaction.items() %}
+
+    <tr>
+        <td>{{ k }}: {{ v }}</td>
+    </tr>
+
+    {% endfor %}
 
 
     {% endfor %}
-</ul>
 
+</table>
 
 {% endblock %}
