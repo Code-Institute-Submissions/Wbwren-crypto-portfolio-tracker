@@ -86,7 +86,7 @@ def login():
 
 
 
-@app.route('/forgotPassword', methods=['GET', 'POST'])
+@app.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():
     if request.method == 'POST':
         # check if username exists in db
@@ -110,7 +110,7 @@ def forgot_password():
             flash('Incorrect Username and/or Password')
             return redirect(url_for('login'))
 
-    return render_template('forgotPassword.html')
+    return render_template('forgot_password.html')
 
 
 @app.route('/logout')
