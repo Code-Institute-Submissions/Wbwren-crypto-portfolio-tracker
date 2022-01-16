@@ -5,13 +5,20 @@
 
 <table>
 
+    <tr>
+        <td>Coin</td>
+        <td>Cost</td>
+        <td>Transaction Type</td>
+        <td>Quantity</td>
+        <td>Action</td>
+    </tr>
     {% for transaction in transactions %}
 
     <tr>
-        <td>Coin: {{ transaction['coin'] }}</td>
-        <td>Cost: {{ transaction['cost'] }}</td>
-        <td>Transaction Type: {{ transaction['transactionType'] }}</td>
-        <td>Cost: {{ transaction['quantity'] }}</td>
+        <td>{{ transaction['coin'] }}</td>
+        <td>{{ transaction['cost'] }}</td>
+        <td>{{ transaction['transactionType'] }}</td>
+        <td>{{ transaction['quantity'] }}</td>
         <td><button>Update</button><button>Delete</button></td>
     </tr>
 
