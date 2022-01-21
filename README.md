@@ -6,12 +6,40 @@ The website will allow users to create an account and input their purchase histo
 
 ## UX
 
+## UX
+
 ### User stories
-* As a user I wish to be able to quickly and easily view my current crypto portfolio value.
+* As a user, I want to be able to register to the site, so that I can securely login.
 
-* As a user I want peace of mind that my investments are safe when viewing my crypto portfolio from a device which I believe may be insecure.
+    * 
 
-* As a user I want to interact with an intuitive, clean user interface.
+* As a user, I want to be able to sign into my account, so that I have access to my personal porfolio.
+
+    * 
+
+* As a user, I would like the user experience on the website to be
+intuitive, so that 
+
+    * The user dashboard provides a [minimal and intuitve UI](https://github.com/Wbwren/crypto-porfolio-tracker/blob/master/assets/img/user-dashboard.png)
+
+* As a user, I want to be able to record my purchased coins, so that I can keep track of my portfolio
+
+    * 
+
+* As a user, I want to be able to record any coins I sell, so that I can keep my portfolio up to date.
+
+    * 
+
+* As a user, I want to be able to view the current value of my portfolio, so that I know when I reach my investment targets.
+
+    * 
+
+* As a user, I want to view my total profit and loss, so that I can assess the effectiveness of my 
+investing startegy.
+    
+    * 
+
+
 
 
 ### Strategy
@@ -20,3 +48,11 @@ __Goal__: Allow users to quickly view how their portfolio is performing without 
 
 ### Scope
 * A website that allows users to create an account, log cryptocurrency transaction history and monitor their portfolio value. w7Gy4[/]6zP9nDWx^V5
+
+
+
+
+
+
+
+
