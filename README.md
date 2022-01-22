@@ -49,6 +49,28 @@ __Goal__: Allow users to quickly view how their portfolio is performing without 
 ### Scope
 * A website that allows users to create an account, log cryptocurrency transaction history and monitor their portfolio value.
 
+### Design and colors:
+
+#### Fonts:
+
+%%, from Google Fonts.
+
+%% is used as the backup font.
+
+#### Colors:
+
+* %% - font color
+
+* %% - card, media background color
+
+
+#### Wireframes
+* [Mobile View](https://github.com/Wbwren/crypto-porfolio-tracker/blob/master/wireframes/mobile-wireframe.png)
+
+* [Tablet View](https://github.com/Wbwren/crypto-porfolio-tracker/blob/master/wireframes/tablet-wireframe.png)
+
+* [Desktop View](https://github.com/Wbwren/crypto-porfolio-tracker/blob/master/wireframes/desktop-wireframe.png)
+
 
 ### Deployment
 
