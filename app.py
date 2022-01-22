@@ -7,7 +7,6 @@ from flask import (
     redirect, request, session, url_for)
 from flask_pymongo import PyMongo
 from csv import reader
-import csv
 
 
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -24,7 +23,6 @@ mongo = PyMongo(app)
 
 api_key = os.environ.get('NOMICS_API_KEY')
 nomics = nomics.Nomics(api_key)
-
 
 
 @app.route('/')
@@ -129,7 +127,6 @@ def get_price(coins_purchased):
     for k, v in coins_purchased.items():
         coins_string += k.upper() + ","
     coins_string = coins_string[:-1]
-    
     return nomics.Currencies.get_currencies(coins_string)
     
  
@@ -139,54 +136,20 @@ def dashboard():
     if 'user' not in session:
         return redirect(url_for('login'))
 
-    
-    def update_balance():
-        transactions = mongo.db.transactions.find( {'user': session['user']} )
+    def update_balance(user_coin_list):
         balance = 0
-        coins_purchased = {}
-        coins_sold = {}
-
-        for transaction in transactions:
-            if transaction['transactionType'] == 'buy':
-                if transaction['coin'] not in coins_purchased:
-                    coins_purchased[transaction['coin']] = float(transaction['quantity'])
-                else:
-                    for k in coins_purchased.items():
-                        if k == transaction['coin']:
-                            coins_purchased[k] += float(transaction['quantity'])
-                            break  
-            else:
-                if transaction['coin'] in coins_purchased:
-                    for k in coins_purchased.items():
-                        if k == transaction['coin']:
-                            coins_purchased[k] -= float(transaction['quantity'])
-                            break
-
         try:
-            nomics_coins = get_price(coins_purchased)
+            nomics_coins = get_price(user_coin_list)
+            prices = {}
+            for coin in nomics_coins:
+                prices[coin['id']] = coin['price']
+            i = 0
+            for k, v in user_coin_list.items():
+                balance += user_coin_list[k] * float(prices[k])
+                i += 1
         except:
             flash('Failed to retrieve live prices')
-    
-        prices = []
-        for coin in nomics_coins:
-            prices.append(coin['price'])
-        
-        i = 0
-        for k, v in coins_purchased.items():
-            if k in coins_sold:
-                coins_purchased[k] -= coins_sold[k]
-            balance += coins_purchased[k] * float(prices[i])
-            i += 1
         return balance
-
-
-    coins = mongo.db.ticker_symbols.find()
-    with open('ticker_symbols.csv', 'w', encoding='UTF8', newline='') as f:
-        writer = csv.writer(f)
-        for coin in coins:
-            writer.writerow([coin['id']])
-
-
 
     # Read the symbols from the csv file and store in array to be passed to webpage
     list_of_coins = []
@@ -248,7 +211,7 @@ def dashboard():
         flash('Transaction Successfully Saved')
 
     user_coin_list = get_user_coin_list()
-    balance = update_balance()
+    balance = update_balance(user_coin_list)
     cost = get_total_cost()
     profit_loss = balance - cost
 
@@ -270,7 +233,6 @@ def transactions():
         transactions_list.append(transaction)
     return render_template('transactions.html', transactions=transactions_list)
     
-
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
