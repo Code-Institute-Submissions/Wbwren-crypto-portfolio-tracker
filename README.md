@@ -6,8 +6,6 @@ The website will allow users to create an account and input their purchase histo
 
 ## UX
 
-## UX
-
 ### User stories
 * As a user, I want to be able to register to the site, so that I can securely login.
 
@@ -18,7 +16,7 @@ The website will allow users to create an account and input their purchase histo
     * 
 
 * As a user, I would like the user experience on the website to be
-intuitive, so that 
+intuitive, so that %%
 
     * The user dashboard provides a [minimal and intuitve UI](https://github.com/Wbwren/crypto-porfolio-tracker/blob/master/assets/img/user-dashboard.png)
 
@@ -90,6 +88,35 @@ This application uses the Nomics API to retreive live coin prices. Each time the
 5. Change the current working directory to where you want the cloned directory to be made.
 6. Type `git clone`, and then paste the URL you copied earlier.
 7. Press enter and your local clone will be ready.
+
+### Technology Used:
+
+#### Languages:
+
+* HTML5
+* CSS3
+* JavaScript
+* Python
+
+#### Libraries, Frameworks and Tools
+
+* <a href="https://www.heroku.com/">Heroku</a> for hosting the deployed application
+* <a href="https://flask.palletsprojects.com/en/2.0.x/">Flask</a> for the project configuration
+* <a href="https://jinja.palletsprojects.com/en/3.0.x/">Jinja2</a> as a templating engine
+* <a href="https://p.nomics.com/cryptocurrency-bitcoin-api">Nomics</a> for retreiving live price data
+* <a href="https://code.visualstudio.com/">VSCode</a> as the IDE
+* <a href="https://git-scm.com/">Git</a> for version control
+* <a href="https://github.com">Github</a> remote git storage service
+* <a href="https://validator.w3.org/">W3C Validator</a> Used to check the validity of my HTML and CSS.
+* <a href="http://pep8online.com/">PEP 8 Online Validator</a> Used to validate the Python code.
+* <a href="https://moqups.com">Balsamiq</a> for creating the wireframes.
+* <a href="https://getbootstrap.com/">Bootstrap</a> for developing a responsive, mobile-first website
+* <a href="https://jquery.com/">jQuery</a> JavaScript library
+* <a href="https://fonts.google.com/specimen/Nunito">Google Fonts</a>
+* <a href="https://fontawesome.com/">FontAwesome</a>
+
+#### Databases
+* <a href="https://www.mongodb.com/">MongoDB</a> as the database service
  
 
 #### Deploy to Heroku 
