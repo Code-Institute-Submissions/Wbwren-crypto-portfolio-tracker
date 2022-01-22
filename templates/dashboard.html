@@ -28,35 +28,32 @@
 
 
 
-<button data-modal-target="#modal">Add Transaction</button>
-<div class="modal" id="modal">
-    <form method='POST'>
-        <label for='coin'>Choose a coin:</label>
-        <select name='coin' id='coin'>
+<form method='POST'>
+    <label for='coin'>Choose a coin:</label>
 
-            {% for coin in list_of_coins %}
-            <option value={{coin}}>{{coin}}</option>
-            {% endfor %}
+    
+    <input list="coin" name="coin">
+    <datalist id='coin'>
+        {% for coin in list_of_coins %}
+        <option value="{{coin}}">
+        {% endfor %}
+    </datalist>
+    
+    <label for='transactionType'>Transation type</label>
+    <select name='transactionType' id='transactionType'>
+        <option value='buy'>Buy</option>
+        <option value='sell'>Sell</option>
+    </select>
 
-        </select>
+    <label for='quantity'>Quantity</label>
+    <input required type='float' id='quantity' name='quantity' min='0' max='100000000' placeholder='0.00'>
 
-        <label for='transactionType'>Transation type</label>
-        <select name='transactionType' id='transactionType'>
-            <option value='buy'>Buy</option>
-            <option value='sell'>Sell</option>
-        </select>
+    <label for='price'>Total FIAT Invested</label>
+    <input required type='number' id='cost' name='cost' min='0' max='100000000' placeholder='0.00'>
 
-        <label for='quantity'>Quantity</label>
-        <input required type='float' id='quantity' name='quantity' min='0' max='100000000' placeholder='0.00'>
+    <button type='submit' id='submit' name='submit'>Submit</button>
 
-        <label for='price'>Total FIAT Invested</label>
-        <input required type='number' id='cost' name='cost' min='0' max='100000000' placeholder='0.00'>
-
-        <button type='submit' id='submit' name='submit'>Submit</button>
-
-    </form>
-</div>
-<div id="overlay"></div>
+</form>
 
 
 {% endblock %}
