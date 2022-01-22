@@ -4,7 +4,7 @@
 <h1>Transaction List</h1>
 
 <table>
-
+    {% if transactions|length > 0 %}
     <tr>
         <td>Coin</td>
         <td>Cost</td>
@@ -12,6 +12,13 @@
         <td>Quantity</td>
         <td>Action</td>
     </tr>
+
+    
+    {% else %}
+    <p>You have not yet entered any transactions.</p>
+    <a href="{{ url_for('dashboard') }}">Return to Dashboard</a>
+    {% endif %}
+
     {% for transaction in transactions %}
 
     <tr>
