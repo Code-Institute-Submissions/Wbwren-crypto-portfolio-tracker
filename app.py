@@ -6,6 +6,8 @@ from flask import (
     Flask, flash, render_template, json,
     redirect, request, session, url_for)
 from flask_pymongo import PyMongo
+from csv import reader
+import csv
 
 
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -53,7 +55,7 @@ def register():
         # put the new user into 'session' cookie
         session['user'] = request.form.get('username').lower()
         flash('Registration Successful!')
-        return render_template('dashboard.html')
+        return redirect(url_for('dashboard'))
 
     return render_template('register.html')
 
@@ -132,8 +134,6 @@ def get_price(coins_purchased):
     
  
 
-
-
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     if 'user' not in session:
@@ -165,7 +165,6 @@ def dashboard():
         try:
             nomics_coins = get_price(coins_purchased)
         except:
-            print('could not retrieve prices')
             flash('Failed to retrieve live prices')
     
         prices = []
@@ -176,21 +175,28 @@ def dashboard():
         for k, v in coins_purchased.items():
             if k in coins_sold:
                 coins_purchased[k] -= coins_sold[k]
-            # print('coin quantity: {0}, coin price: {1}'.format(coins_purchased[k], prices[i]))
             balance += coins_purchased[k] * float(prices[i])
             i += 1
         return balance
 
 
     coins = mongo.db.ticker_symbols.find()
-   
+    with open('ticker_symbols.csv', 'w', encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
+        for coin in coins:
+            writer.writerow([coin['id']])
+
+
+
+    # Read the symbols from the csv file and store in array to be passed to webpage
     list_of_coins = []
-    i = 0
-    for coin in coins:
-        print('fetching a coin')
-        print(i)
-        i += 1
-        list_of_coins.append(coin['id'])
+    with open('ticker_symbols.csv', 'r', encoding='utf-8') as symbols:
+    # pass the file object to reader() to get the reader object
+        csv_reader = reader(symbols)
+        # Iterate over each row in the csv using reader object
+        for row in csv_reader:
+            # row variable is a list that represents a row in csv
+            list_of_coins.append(row[0])
 
 
     def get_total_cost():
