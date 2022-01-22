@@ -72,6 +72,13 @@ __Goal__: Allow users to quickly view how their portfolio is performing without 
 * [Desktop View](https://github.com/Wbwren/crypto-porfolio-tracker/blob/master/wireframes/desktop-wireframe.png)
 
 
+### Features:
+
+#### Nomics API
+
+This application uses the Nomics API to retreive live coin prices. Each time the user directs to the dashboard, the API is called and prices updated. Nomics prices are updated every 10 seconds.
+
+
 ### Deployment
 
 #### Cloning - Github 
