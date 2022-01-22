@@ -50,9 +50,9 @@ __Goal__: Allow users to quickly view how their portfolio is performing without 
 * A website that allows users to create an account, log cryptocurrency transaction history and monitor their portfolio value.
 
 
-### DEPLOYMENT
+### Deployment
 
-#### CLONINNG - GITHUB 
+#### Cloning - Github 
 
 1. Follow this link to my [Repository on Github](https://github.com/Wbwren/crypto-portfolio-tracker) and open it.
 2. Click `Clone or Download`.
@@ -63,7 +63,7 @@ __Goal__: Allow users to quickly view how their portfolio is performing without 
 7. Press enter and your local clone will be ready.
  
 
-#### DEPLOY TO HEROKU 
+#### Deploy to Heroku 
 
 1. On Heroku create an account and log in.
 2. Click `new` and `create new app`.
