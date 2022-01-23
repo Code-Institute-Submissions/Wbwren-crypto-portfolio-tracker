@@ -3,8 +3,11 @@ from urllib import request
 import json
 from csv import reader
 import csv
+import os
 
-url = "https://api.nomics.com/v1/currencies?key=5aad5e813e289f0df957d590297a5f72&ids=&attributes=id,name,logo_url\\"
+api_key = os.environ.get('NOMICS_API_KEY')
+
+url = "https://api.nomics.com/v1/currencies?key=api_key&ids=&attributes=id,name,logo_url\\"
     
     
 
