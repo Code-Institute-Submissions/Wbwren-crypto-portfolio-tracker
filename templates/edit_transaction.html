@@ -1,31 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Your Portfolio</h1>
-<h2>Your portfolio net worth:</h2>
-
-<p>Total FIAT Invested: {{ cost }}</p>
-
-<p>Current Balance: {{ balance }}</p>
-
-<p>Total Profit/Loss: {{ profit_loss }}</p>
-
-<a href="{{ url_for('dashboard') }}">Refresh Prices</a>
-
-
-<table>
-    <tr>
-        <th>Coin</th>
-        <th>Quantity</th>
-    </tr>
-    {% for k, v in user_coin_list.items() %}
-    <tr>
-        <th>{{ k }}</th>
-        <th>{{ v }}</th>
-    </tr>
-    {% endfor %}
-</table>
-
 
 
 <form method='POST'>

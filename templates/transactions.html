@@ -26,8 +26,8 @@
         <td>{{ transaction['cost'] }}</td>
         <td>{{ transaction['transactionType'] }}</td>
         <td>{{ transaction['quantity'] }}</td>
-        <td><button>Update</button><button>Delete</button></td>
-    </tr>
+        <td><a href="delete/{{transaction['_id']}}">Delete</a><a href="edit/{{transaction['_id']}}">Edit</a></td>
+    </tr> 
 
     {% endfor %}
 

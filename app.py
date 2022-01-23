@@ -7,6 +7,7 @@ from flask import (
     redirect, request, session, url_for)
 from flask_pymongo import PyMongo
 from csv import reader
+from bson.objectid import ObjectId
 
 
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -228,11 +229,51 @@ def transactions():
 
     transactions_list = []
     for transaction in transactions:
-        transaction.pop('_id')
         transaction.pop('user')
         transactions_list.append(transaction)
     return render_template('transactions.html', transactions=transactions_list)
+
+@app.route('/delete/<transaction>', methods=['GET', 'POST'])
+def transaction_delete(transaction):
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    try:
+        mongo.db.transactions.delete_one({ "_id" : ObjectId(transaction) })
+    except:
+        flash('Failed to delete transaction')
+    return redirect(url_for('transactions'))
+
+
+@app.route('/edit/<transaction>', methods=['GET', 'POST'])
+def transaction_edit(transaction):
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    list_of_coins = []
+    with open('ticker_symbols.csv', 'r', encoding='utf-8') as symbols:
+    # pass the file object to reader() to get the reader object
+        csv_reader = reader(symbols)
+        # Iterate over each row in the csv using reader object
+        for row in csv_reader:
+            # row variable is a list that represents a row in csv
+            list_of_coins.append(row[0])
     
+    if request.method == 'POST':
+        try:
+            mongo.db.transactions.replace_one(
+                {"_id" : ObjectId(transaction)},
+                {'user': session['user'],
+                'coin': request.form.get('coin'),
+                'transactionType': request.form.get('transactionType'),
+                'quantity': float(request.form.get('quantity')),
+                'cost': float(request.form.get('cost'))}
+            )
+            flash('Transaction Successfully Saved')
+            return redirect(url_for('transactions'))
+        except: 
+            flash('Failed to update transaction')
+    return render_template('edit_transaction.html', list_of_coins=list_of_coins)
+
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
