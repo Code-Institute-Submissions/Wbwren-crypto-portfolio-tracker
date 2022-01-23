@@ -1,4 +1,5 @@
 # Crypto Portfolio Tracker
+%% note - csv is used to increase performance
 
 ## Project purpose 
 The purpose of this website is to provide quick access to a users current cryptocurrency portfolio net worth.
@@ -118,6 +119,51 @@ This application uses the Nomics API to retreive live coin prices. Each time the
 #### Databases
 * <a href="https://www.mongodb.com/">MongoDB</a> as the database service
  
+
+## Testing
+
+### Code Validation
+* HTML was validated using W3C Markup Validation Service.
+
+* CSS was validated using W3C CSS Validation Service - Jigsaw
+
+* JavaScript was passed through the linter jshint with no warnings
+### Functionality Tests
+| Num | Test                                                                         | Action                              | Outcome image                                                                                                                        | Result |
+|-----|------------------------------------------------------------------------------|-------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|--------|
+| 1   | Navigation bar links work correctly | Click on each nav icon              | [Image of ](https://github.com/Wbwren/%%%.png) | Pass   |
+| 2   | User registraion requires valid data | Attempt to enter invalid data for each field | [Image of ](https://github.com/Wbwren/%%%.png) | Pass   |
+| 3   | User can login to site after registraition | Register for site and attempt to login | [Image of ](https://github.com/Wbwren/%%%.png) | Pass   |
+| 4   | User can access their dashboard after logging in | Login and click dashboard in navbar | [Image of ](https://github.com/Wbwren/%%%.png) | Pass   |
+| 5   | User can access the transactions page after logging in | Login and click transactions in navbar | [Image of ](https://github.com/Wbwren/%%%.png) | Pass   |
+| 6   | User can successfully logout | Click logout button in navbar | [Image of ](https://github.com/Wbwren/%%%.png) | Pass   |
+| 7   | User add add a transaction | Add a transaction and see if it apears in the transaction list | [Image of ](https://github.com/Wbwren/%%%.png) | Pass   |
+| 8   | User can edit a transaction | Add transaction and attempt to edit it on the transactions page | [Image of form ](https://github.com/Wbwren/%%%.png) | Pass   |
+| 9   | User can delete a transaction | Add transaction and attempt to delete it on the transactions page | [Image of form ](https://github.com/Wbwren/%%%.png) | Pass   |
+
+### Non Functional Requirments
+| 1   | Dashboard is loaded in less than 2 seconds | Login and time the loadtime | [Image of form ](https://github.com/Wbwren/%%%.png) | Pass   |
+
+
+
+<br>
+
+### Browser Compatibility
+| Num | Browser         | Test result |
+| ---|:-------------:| :----: |
+| 1 | Chrome | Passed
+| 2 | Opera | Passed
+| 3 | Mozzilla | Passed
+
+<br>
+
+### Responsiveness Testing
+* Chrome developer tools was used to test a wide variety of device sizes and resolutions.
+
+* The website has been tested on a Samsung Galaxy s10, Lenovo Legion and a desktop PC with a 1080p and 4k monitor, respectfully.
+
+
+
 
 #### Deploy to Heroku 
 
