@@ -71,7 +71,6 @@ def login():
             if check_password_hash(
                     existing_user['password'], request.form.get('password')):
                 session['user'] = request.form.get('username').lower()
-                flash('Welcome, {}'.format(request.form.get('username')))
                 return redirect(url_for('dashboard'))
             else:
                 # invalid password match
@@ -139,6 +138,10 @@ def dashboard():
 
     def update_balance(user_coin_list):
         balance = 0
+
+        if len(user_coin_list) < 1:
+            return balance
+
         try:
             nomics_coins = get_price(user_coin_list)
             prices = {}
