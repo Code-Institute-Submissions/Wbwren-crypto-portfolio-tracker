@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Your Portfolio</h1>
-<h2>Your portfolio net worth:</h2>
+<h1>Dashboard</h1>
 
 <p>Total FIAT Invested: {{ cost }}</p>
 
@@ -14,10 +13,6 @@
 
 
 <table>
-    <tr>
-        <th>Coin</th>
-        <th>Quantity</th>
-    </tr>
     {% for k, v in user_coin_list.items() %}
     <tr>
         <th>{{ k }}</th>
@@ -29,26 +24,27 @@
 
 
 <form method='POST'>
-    <label for='coin'>Choose a coin:</label>
-
-    <input list="coin" name="coin">
-    <datalist id='coin'>
-        {% for coin in list_of_coins %}
-        <option value="{{coin}}">
-        {% endfor %}
-    </datalist>
     
+    <label for="coin">Select a coin</label>
+    <input list="coin" name="coin">
+        <datalist id='coin'>
+            {% for coin in list_of_coins %}
+            <option value="{{coin}}">
+            {% endfor %}
+        </datalist>
+    </input>
     <label for='transactionType'>Transation type</label>
+
     <select name='transactionType' id='transactionType'>
         <option value='buy'>Buy</option>
         <option value='sell'>Sell</option>
     </select>
 
     <label for='quantity'>Quantity</label>
-    <input required type='float' id='quantity' name='quantity' min='0' max='100000000' placeholder='0.00'>
+    <input required type="number" step="0.000001" id='quantity' name='quantity' min='0' max='100000000' placeholder='0.00'>
 
-    <label for='price'>Total FIAT Invested</label>
-    <input required type='number' id='cost' name='cost' min='0' max='100000000' placeholder='0.00'>
+    <label for='price'>FIAT Value</label>
+    <input required type="number" step="0.000001" id='cost' name='cost' min='0' max='100000000' placeholder='0.00'>
 
     <button type='submit' id='submit' name='submit'>Submit</button>
 
