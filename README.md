@@ -137,7 +137,7 @@ When new coins are added by the Nomics API, running this script will integrate t
 | 9   | User can delete a transaction | Add transaction and attempt to delete it on the transactions page | Pass   |
 
 ### Non Functional Requirements
-| Num | Test                                                                         | Action                              | Outcome image                                                                                                                        | Result |
+| Num | Test                                                                         | Action                              | Outcome image                                                                                                                        | Result
 |-----|------------------------------------------------------------------------------|-------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|--------|
 | 1   | Dashboard is loaded in less than 2 seconds | Login and time the loadtime | [Image of form ](https://github.com/Wbwren/%%%.png) | Pass   |
 
