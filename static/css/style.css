@@ -9,3 +9,11 @@ select, input {
 #portfolio, #add-transaction, #portfolio-coin-list {
     margin-bottom: 5rem;
 }
+
+#transaction-btn {
+    margin-right: 1rem;
+}
+
+td {
+    padding: 0 15px;
+  }

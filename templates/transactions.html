@@ -6,11 +6,11 @@
 <table>
     {% if transactions|length > 0 %}
     <tr>
-        <td>Coin</td>
-        <td>Cost</td>
-        <td>Transaction Type</td>
-        <td>Quantity</td>
-        <td>Action</td>
+        <td><strong>Coin</strong></td>
+        <td><strong>Cost</strong></td>
+        <td><strong>Transaction Type</strong></td>
+        <td><strong>Quantity</strong></td>
+        <td><strong>Action</strong></td>
     </tr>
 
     
@@ -22,11 +22,11 @@
     {% for transaction in transactions %}
 
     <tr>
-        <td>{{ transaction['coin'] }}</td>
-        <td>{{ transaction['cost'] }}</td>
-        <td>{{ transaction['transactionType'] }}</td>
-        <td>{{ transaction['quantity'] }}</td>
-        <td><a href="delete/{{transaction['_id']}}">Delete</a><a href="edit/{{transaction['_id']}}">Edit</a></td>
+        <td class="transaction-col">{{ transaction['coin'] }}</td>
+        <td class="transaction-col">{{ transaction['cost'] }}</td>
+        <td class="transaction-col">{{ transaction['transactionType'] }}</td>
+        <td class="transaction-col">{{ transaction['quantity'] }}</td>
+        <td class="transaction-col"><a id="transaction-btn" href="delete/{{transaction['_id']}}">Delete</a><a id="transaction-btn" href="edit/{{transaction['_id']}}">Edit</a></td>
     </tr> 
 
     {% endfor %}
