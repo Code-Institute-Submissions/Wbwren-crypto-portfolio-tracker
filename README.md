@@ -19,7 +19,6 @@ The website will allow users to create an account and input their purchase histo
 * As a user, I would like the user experience on the website to be
 intuitive, so that %%
 
-    * The user dashboard provides a [minimal and intuitve UI](https://github.com/Wbwren/crypto-portfolio-tracker/blob/master/assets/img/user-dashboard.png)
 
 * As a user, I want to be able to record my purchased coins, so that I can keep track of my portfolio
 
