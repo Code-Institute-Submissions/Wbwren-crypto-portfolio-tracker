@@ -1,6 +1,7 @@
 import os
-from dns.query import _set_selector_class
+# from dns.query import _set_selector_class
 import nomics
+import environ
 import time
 from flask import (
     Flask, flash, render_template, json,
@@ -11,31 +12,35 @@ from bson.objectid import ObjectId
 
 
 from werkzeug.security import generate_password_hash, check_password_hash
-if os.path.exists('env.py'):
-    import env
+
+env = environ.Env()
+environ.Env.read_env()
 
 app = Flask(__name__)
 
-app.config['MONGO_DBNAME'] = os.environ.get('MONGO_DBNAME')
-app.config['MONGO_URI'] = os.environ.get('MONGO_URI')
-app.secret_key = os.environ.get('SECRET_KEY')
+app.config['MONGO_DBNAME'] = env('MONGO_DBNAME')
+app.config['MONGO_URI'] = env('MONGO_URI')
+app.secret_key = env('SECRET_KEY')
 
 mongo = PyMongo(app)
 
-api_key = os.environ.get('NOMICS_API_KEY')
+api_key = env('NOMICS_API_KEY')
 nomics = nomics.Nomics(api_key)
 
 
 @app.route('/')
 @app.route('/home')
 def home():
+    """ Return home view if user not in the session or redirect to dashboard """
     if 'user' in session:
         return redirect(url_for('dashboard'))
     return render_template('base.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])
+
 def register():
+    """ Registration functionality """
     if request.method == 'POST':
         # check if username already exists in db
         existing_user = mongo.db.users.find_one(
@@ -61,6 +66,7 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """ Login functionality """
     if request.method == 'POST':
         # check if username exists in db
         existing_user = mongo.db.users.find_one(
@@ -88,28 +94,10 @@ def login():
 
 @app.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():
-    if request.method == 'POST':
-        # check if username exists in db
-        existing_user = mongo.db.users.find_one(
-            {'username': request.form.get('username').lower()})
-
-        if existing_user:
-            # ensure hashed password matches user input
-            if check_password_hash(
-                    existing_user['password'], request.form.get('password')):
-                session['user'] = request.form.get('username').lower()
-                flash('Welcome, {}'.format(request.form.get('username')))
-                return redirect(url_for('dashboard'))
-            else:
-                # invalid password match
-                flash('Incorrect Username and/or Password')
-                return redirect(url_for('login'))
-
-        else:
-            # username doesn't exist
-            flash('Incorrect Username and/or Password')
-            return redirect(url_for('login'))
-
+    """ Forgot password page - functionality not currently implemented """
+    if 'user' in session:
+        return redirect(url_for('dashboard'))
+        
     return render_template('forgot_password.html')
 
 
@@ -152,7 +140,7 @@ def dashboard():
                 balance += user_coin_list[k] * float(prices[k])
                 i += 1
         except:
-            flash('Failed to retrieve live prices')
+            flash('Failed to retrieve live prices for some symbols')
         return balance
 
     # Read the symbols from the csv file and store in array to be passed to webpage
@@ -202,17 +190,21 @@ def dashboard():
 
  
     if request.method == 'POST':
-        transaction = {
-            'user': session['user'],
-            'coin': request.form.get('coin'),
-            'transactionType': request.form.get('transactionType'),
-            'quantity': float(request.form.get('quantity')),
-            'cost': float(request.form.get('cost'))
-        }
-        mongo.db.transactions.insert_one(transaction)
-        # delay API call as limited to one call per second
-        time.sleep(1)
-        flash('Transaction Successfully Saved')
+        selected_coin = request.form.get('coin').upper()
+        if selected_coin not in list_of_coins:
+            flash("Sorry, the coin entered is not currently supported")
+        else:
+            transaction = {
+                'user': session['user'],
+                'coin': selected_coin,
+                'transactionType': request.form.get('transactionType'),
+                'quantity': float(request.form.get('quantity')),
+                'cost': float(request.form.get('cost'))
+            }
+            mongo.db.transactions.insert_one(transaction)
+            # delay API call as limited to one call per second
+            time.sleep(1)
+            flash('Transaction Successfully Saved')
 
     user_coin_list = get_user_coin_list()
     balance = update_balance(user_coin_list)
@@ -263,22 +255,26 @@ def transaction_edit(transaction):
     
     if request.method == 'POST':
         try:
-            mongo.db.transactions.replace_one(
-                {"_id" : ObjectId(transaction)},
-                {'user': session['user'],
-                'coin': request.form.get('coin'),
-                'transactionType': request.form.get('transactionType'),
-                'quantity': float(request.form.get('quantity')),
-                'cost': float(request.form.get('cost'))}
-            )
-            flash('Transaction Successfully Saved')
-            return redirect(url_for('transactions'))
+            selected_coin = request.form.get('coin').upper()
+            if selected_coin not in list_of_coins:
+                flash("Sorry, the coin entered is not currently supported")
+            else:
+                mongo.db.transactions.replace_one(
+                    {"_id" : ObjectId(transaction)},
+                    {'user': session['user'],
+                    'coin': selected_coin,
+                    'transactionType': request.form.get('transactionType'),
+                    'quantity': float(request.form.get('quantity')),
+                    'cost': float(request.form.get('cost'))}
+                )
+                flash('Transaction Successfully Saved')
+                return redirect(url_for('transactions'))
         except: 
             flash('Failed to update transaction')
     return render_template('edit_transaction.html', list_of_coins=list_of_coins)
 
 
 if __name__ == '__main__':
-    app.run(host=os.environ.get('IP'),
-            port=int(os.environ.get('PORT')),
-            debug=True)
+    app.run(host=env('IP'),
+            port=int(env('PORT')),
+            debug=False)
