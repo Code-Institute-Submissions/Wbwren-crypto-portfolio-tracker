@@ -26,7 +26,7 @@
         <td class="transaction-col">{{ transaction['cost'] }}</td>
         <td class="transaction-col">{{ transaction['transactionType'] }}</td>
         <td class="transaction-col">{{ transaction['quantity'] }}</td>
-        <td class="transaction-col"><a id="transaction-btn" href="delete/{{transaction['_id']}}">Delete</a><a id="transaction-btn" href="edit/{{transaction['_id']}}">Edit</a></td>
+        <td class="transaction-col"><a class="transaction-btn" href="delete/{{transaction['_id']}}">Delete</a><a class="transaction-btn" href="edit/{{transaction['_id']}}">Edit</a></td>
     </tr> 
 
     {% endfor %}

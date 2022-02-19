@@ -36,18 +36,16 @@
     </header>
 
     <div class='container'>
-        <section>
-            <!-- flash messages -->
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            {% for message in messages %}
-            <div class='row flashes'>
-                <h4 class='light-blue lighten-4 center-align'>{{ message }}</h4>
-            </div>
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
-        </section>
+        <!-- flash messages -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class='row flashes'>
+            <h4 class='light-blue lighten-4 center-align'>{{ message }}</h4>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
         {% block content %}
         <div class="container h-100">
             <div class="row h-100">
@@ -64,7 +62,7 @@
         </div>
         {% endblock %}
     </div>
-<script type="text/javascript" src='{{ url_for("static", filename="js/jquery-3.6.0.js") }}'></script>
+<script src='{{ url_for("static", filename="js/jquery-3.6.0.js") }}'></script>
 <script src="https://kit.fontawesome.com/db8b34a031.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
