@@ -31,14 +31,14 @@ nomics = nomics.Nomics(api_key)
 @app.route('/')
 @app.route('/home')
 def home():
-    """ Return home view if user not in the session or redirect to dashboard """
+    """ Return home view if user not in the session or redirect to dashboard
+    """
     if 'user' in session:
         return redirect(url_for('dashboard'))
     return render_template('base.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])
-
 def register():
     """ Registration functionality """
     if request.method == 'POST':
@@ -91,13 +91,12 @@ def login():
     return render_template('login.html')
 
 
-
 @app.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():
     """ Forgot password page - functionality not currently implemented """
     if 'user' in session:
         return redirect(url_for('dashboard'))
-        
+
     return render_template('forgot_password.html')
 
 
@@ -109,15 +108,13 @@ def logout():
     return redirect(url_for('login'))
 
 
-
 def get_price(coins_purchased):
     coins_string = ""
     for k, v in coins_purchased.items():
         coins_string += k.upper() + ","
     coins_string = coins_string[:-1]
     return nomics.Currencies.get_currencies(coins_string)
-    
- 
+
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
@@ -143,43 +140,42 @@ def dashboard():
             flash('Failed to retrieve live prices for some symbols')
         return balance
 
-    # Read the symbols from the csv file and store in array to be passed to webpage
+    # Read the symbols from the csv file and store
+    # in array to be passed to webpage
     list_of_coins = []
     with open('ticker_symbols.csv', 'r', encoding='utf-8') as symbols:
-    # pass the file object to reader() to get the reader object
+        # pass the file object to reader() to get the reader object
         csv_reader = reader(symbols)
         # Iterate over each row in the csv using reader object
         for row in csv_reader:
             # row variable is a list that represents a row in csv
             list_of_coins.append(row[0])
 
-
     def get_total_cost():
-        transactions = mongo.db.transactions.find( {'user': session['user']} )
+        transactions = mongo.db.transactions.find({'user': session['user']})
         total_cost = 0
-        
+
         for transaction in transactions:
             if transaction['transactionType'] == 'buy':
                 total_cost += transaction['cost']
             elif transaction['transactionType'] == 'sell':
                 total_cost -= transaction['cost']
         return total_cost
-    
 
-    
     def get_user_coin_list():
         user_coin_list = {}
 
-        transactions = mongo.db.transactions.find( {'user': session['user']} )
+        transactions = mongo.db.transactions.find({'user': session['user']})
         for transaction in transactions:
             if transaction['transactionType'] == 'buy':
                 if transaction['coin'] not in user_coin_list:
-                    user_coin_list[transaction['coin']] = float(transaction['quantity'])
+                    user_coin_list[transaction['coin']] = float(
+                        transaction['quantity'])
                 else:
                     for k, v in user_coin_list.items():
                         if k == transaction['coin']:
                             user_coin_list[k] += float(transaction['quantity'])
-                            break  
+                            break
             else:
                 if transaction['coin'] in user_coin_list:
                     for k, v in user_coin_list.items():
@@ -188,7 +184,6 @@ def dashboard():
                             break
         return user_coin_list
 
- 
     if request.method == 'POST':
         selected_coin = request.form.get('coin').upper()
         if selected_coin not in list_of_coins:
@@ -211,16 +206,18 @@ def dashboard():
     cost = get_total_cost()
     profit_loss = balance - cost
 
-    return render_template('dashboard.html', balance=balance, cost=cost, profit_loss=profit_loss, user_coin_list=user_coin_list, list_of_coins=list_of_coins)
-
+    return render_template('dashboard.html', balance=balance,
+                           cost=cost, profit_loss=profit_loss,
+                           user_coin_list=user_coin_list,
+                           list_of_coins=list_of_coins)
 
 
 @app.route('/transactions', methods=['GET', 'POST'])
 def transactions():
     if 'user' not in session:
         return redirect(url_for('login'))
-    
-    transactions = mongo.db.transactions.find( {'user': session['user']} )
+
+    transactions = mongo.db.transactions.find({'user': session['user']})
 
     transactions_list = []
     for transaction in transactions:
@@ -228,12 +225,13 @@ def transactions():
         transactions_list.append(transaction)
     return render_template('transactions.html', transactions=transactions_list)
 
+
 @app.route('/delete/<transaction>', methods=['GET', 'POST'])
 def transaction_delete(transaction):
     if 'user' not in session:
         return redirect(url_for('login'))
     try:
-        mongo.db.transactions.delete_one({ "_id" : ObjectId(transaction) })
+        mongo.db.transactions.delete_one({"_id": ObjectId(transaction)})
     except:
         flash('Failed to delete transaction')
     return redirect(url_for('transactions'))
@@ -246,13 +244,13 @@ def transaction_edit(transaction):
 
     list_of_coins = []
     with open('ticker_symbols.csv', 'r', encoding='utf-8') as symbols:
-    # pass the file object to reader() to get the reader object
+        # pass the file object to reader() to get the reader object
         csv_reader = reader(symbols)
         # Iterate over each row in the csv using reader object
         for row in csv_reader:
             # row variable is a list that represents a row in csv
             list_of_coins.append(row[0])
-    
+
     if request.method == 'POST':
         try:
             selected_coin = request.form.get('coin').upper()
@@ -260,18 +258,19 @@ def transaction_edit(transaction):
                 flash("Sorry, the coin entered is not currently supported")
             else:
                 mongo.db.transactions.replace_one(
-                    {"_id" : ObjectId(transaction)},
+                    {"_id": ObjectId(transaction)},
                     {'user': session['user'],
-                    'coin': selected_coin,
-                    'transactionType': request.form.get('transactionType'),
-                    'quantity': float(request.form.get('quantity')),
-                    'cost': float(request.form.get('cost'))}
+                     'coin': selected_coin,
+                     'transactionType': request.form.get('transactionType'),
+                     'quantity': float(request.form.get('quantity')),
+                     'cost': float(request.form.get('cost'))}
                 )
                 flash('Transaction Successfully Saved')
                 return redirect(url_for('transactions'))
-        except: 
+        except:
             flash('Failed to update transaction')
-    return render_template('edit_transaction.html', list_of_coins=list_of_coins)
+    return render_template('edit_transaction.html',
+                           list_of_coins=list_of_coins)
 
 
 if __name__ == '__main__':
