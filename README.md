@@ -57,11 +57,11 @@ __Goal__: Allow users to quickly view how their portfolio is performing without 
 
 
 #### Wireframes
-* [Mobile View](https://github.com/Wbwren/crypto-portfolio-tracker/blob/master/wireframes/mobile-wireframe.png)
+* [Mobile View](https://github.com/Wbwren/crypto-portfolio-tracker/blob/main/blob/master/wireframes/mobile-wireframe.png)
 
-* [Tablet View](https://github.com/Wbwren/crypto-portfolio-tracker/blob/master/wireframes/tablet-wireframe.png)
+* [Tablet View](https://github.com/Wbwren/crypto-portfolio-tracker/blob/main/blob/master/wireframes/tablet-wireframe.png)
 
-* [Desktop View](https://github.com/Wbwren/crypto-portfolio-tracker/blob/master/wireframes/desktop-wireframe.png)
+* [Desktop View](https://github.com/Wbwren/crypto-portfolio-tracker/blob/main/blob/master/wireframes/desktop-wireframe.png)
 
 
 ### Features:
