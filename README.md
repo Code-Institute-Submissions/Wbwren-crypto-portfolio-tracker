@@ -1,5 +1,5 @@
 # Crypto Portfolio Tracker
-%% note - csv is used to increase performance
+
 
 ## Project purpose 
 The purpose of this website is to provide quick access to a users current cryptocurrency portfolio net worth.
@@ -19,7 +19,7 @@ The website will allow users to create an account and input their purchase histo
 * As a user, I would like the user experience on the website to be
 intuitive, so that %%
 
-    * The user dashboard provides a [minimal and intuitve UI](https://github.com/Wbwren/crypto-porfolio-tracker/blob/master/assets/img/user-dashboard.png)
+    * The user dashboard provides a [minimal and intuitve UI](https://github.com/Wbwren/crypto-portfolio-tracker/blob/master/assets/img/user-dashboard.png)
 
 * As a user, I want to be able to record my purchased coins, so that I can keep track of my portfolio
 
@@ -50,25 +50,18 @@ __Goal__: Allow users to quickly view how their portfolio is performing without 
 
 ### Design and colors:
 
-#### Fonts:
-
-%%, from Google Fonts.
-
-%% is used as the backup font.
 
 #### Colors:
 
-* %% - font color
-
-* %% - card, media background color
+* Alice Blue - font color
 
 
 #### Wireframes
-* [Mobile View](https://github.com/Wbwren/crypto-porfolio-tracker/blob/master/wireframes/mobile-wireframe.png)
+* [Mobile View](https://github.com/Wbwren/crypto-portfolio-tracker/blob/master/wireframes/mobile-wireframe.png)
 
-* [Tablet View](https://github.com/Wbwren/crypto-porfolio-tracker/blob/master/wireframes/tablet-wireframe.png)
+* [Tablet View](https://github.com/Wbwren/crypto-portfolio-tracker/blob/master/wireframes/tablet-wireframe.png)
 
-* [Desktop View](https://github.com/Wbwren/crypto-porfolio-tracker/blob/master/wireframes/desktop-wireframe.png)
+* [Desktop View](https://github.com/Wbwren/crypto-portfolio-tracker/blob/master/wireframes/desktop-wireframe.png)
 
 
 ### Features:
@@ -76,6 +69,10 @@ __Goal__: Allow users to quickly view how their portfolio is performing without 
 #### Nomics API
 
 This application uses the Nomics API to retreive live coin prices. Each time the user directs to the dashboard, the API is called and prices updated. Nomics prices are updated every 10 seconds.
+
+#### Symbol retreiver
+A script called symbol_retreiver is located in the root directory for retreiver ticker symbols and loading into the csv file.
+When new coins are added by the Nomics API, running this script will integrate them into the website.
 
 
 ### Deployment
@@ -141,9 +138,13 @@ This application uses the Nomics API to retreive live coin prices. Each time the
 | 8   | User can edit a transaction | Add transaction and attempt to edit it on the transactions page | [Image of form ](https://github.com/Wbwren/%%%.png) | Pass   |
 | 9   | User can delete a transaction | Add transaction and attempt to delete it on the transactions page | [Image of form ](https://github.com/Wbwren/%%%.png) | Pass   |
 
-### Non Functional Requirments
+### Non Functional Requirements
+| Num | Test                                                                         | Action                              | Outcome image                                                                                                                        | Result |
+|-----|------------------------------------------------------------------------------|-------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|--------|
 | 1   | Dashboard is loaded in less than 2 seconds | Login and time the loadtime | [Image of form ](https://github.com/Wbwren/%%%.png) | Pass   |
 
+Notes: initially the dashboard took excessivly long (>5s) to load when retreiving ticker symbols from mongodb. Placing the ticker
+symbols in a csv in the root directory acheived this non funtional requirement.
 
 
 <br>
@@ -161,7 +162,6 @@ This application uses the Nomics API to retreive live coin prices. Each time the
 * Chrome developer tools was used to test a wide variety of device sizes and resolutions.
 
 * The website has been tested on a Samsung Galaxy s10, Lenovo Legion and a desktop PC with a 1080p and 4k monitor, respectfully.
-
 
 
 
