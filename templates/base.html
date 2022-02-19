@@ -35,36 +35,36 @@
         </nav>
     </header>
 
-    <section>
-        <!-- flash messages -->
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        {% for message in messages %}
-        <div class='row flashes'>
-            <h4 class='light-blue lighten-4 center-align'>{{ message }}</h4>
-        </div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-    </section>
     <div class='container'>
-    {% block content %}
-    <div class="container h-100">
-        <div class="row h-100">
-            <div class="col-7 col-md-6 my-auto">
-                <h1 class="display-4 logo-font text-black">
-                    Welcome,
+        <section>
+            <!-- flash messages -->
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class='row flashes'>
+                <h4 class='light-blue lighten-4 center-align'>{{ message }}</h4>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </section>
+        {% block content %}
+        <div class="container h-100">
+            <div class="row h-100">
+                <div class="col-7 col-md-6 my-auto">
+                    <h1 class="display-4 logo-font text-black">
+                        Welcome,
+                        
+                    </h1>
+                    <h2>
                     
-                </h1>
-                <h2>
-                
-                    To start tracking your crypto portfolio, please <a href='{{ url_for("dashboard") }}'>register</a> or <a href='{{ url_for("dashboard") }}'>login.</a>
-                                       
-                </h2>
+                        To start tracking your crypto portfolio, please <a href='{{ url_for("dashboard") }}'>register</a> or <a href='{{ url_for("dashboard") }}'>login.</a>
+                                        
+                    </h2>
+                </div>
             </div>
         </div>
-    </div>
-    {% endblock %}
+        {% endblock %}
     </div>
 <script type="text/javascript" src='{{ url_for("static", filename="js/jquery-3.6.0.js") }}'></script>
 <script src="https://kit.fontawesome.com/db8b34a031.js" crossorigin="anonymous"></script>

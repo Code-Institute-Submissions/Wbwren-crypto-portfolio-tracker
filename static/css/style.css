@@ -1,3 +1,11 @@
 select, input {
     display: block;
 }
+
+.dropdown-item .nav-link {
+    color: aliceblue;
+}
+
+#portfolio, #add-transaction, #portfolio-coin-list {
+    margin-bottom: 5rem;
+}
